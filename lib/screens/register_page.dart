@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:movies/constants.dart';
 
-class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final _formKey = GlobalKey<FormState>();
+class _RegisterPageState extends State<RegisterPage> {
+   final _formKey = GlobalKey<FormState>();
 
   final emaliController = TextEditingController();
 
@@ -18,7 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   String email = '';
 
   String password = '';
-
+  
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -32,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Icon(Icons.person),
                   Text(
-                    'Register',
+                    'LogIn',
                     textAlign: TextAlign.center,
                   )
                 ],
@@ -50,14 +51,12 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Container(
                     height: 130,
-                    child: const Image(
-                      image: AssetImage('images/background.png'),
-                    ),
+                    child: Icon(Icons.person,size: 100,color: Colors.red,)
                   ),
                   const Padding(
                     padding: EdgeInsets.only(left: 50.0),
                     child: Text(
-                      'Login',
+                      'Register',
                       style: TextStyle(fontSize: 30),
                       textAlign: TextAlign.left,
                     ),
@@ -105,15 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  GestureDetector(
-                                    child: Text('Forget Password?'),
-                                    onTap: () {},
-                                  ),
-                                ],
-                              ),
+                              
                               const SizedBox(
                                 height: 20,
                               ),
@@ -132,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                                     }
                                   },
                                   child: const Text(
-                                    'Log In',
+                                    'Register',
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ),
@@ -148,3 +139,4 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
