@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:movies/constants.dart';
+import 'auth_service.dart';
 
 class LoginPage extends StatefulWidget {
-  LoginPage({super.key});
+  void Function() toggleView;
+
+  LoginPage({super.key, required this.toggleView});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
 
   final emaliController = TextEditingController();
@@ -26,17 +30,14 @@ class _LoginPageState extends State<LoginPage> {
         appBar: AppBar(
           title: const Text('Movies'),
           actions: [
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Icon(Icons.person),
-                  Text(
-                    'Register',
-                    textAlign: TextAlign.center,
-                  )
-                ],
-              ),
+            ElevatedButton.icon(
+              onPressed: () {
+                widget.toggleView();
+              },
+              icon: Icon(Icons.person),
+              label: Text('Register'),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.red)),
             )
           ],
         ),
@@ -75,8 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                                     : null,
                                 controller: emaliController,
                                 decoration: kTextFormDecoration.copyWith(
-                                  hintText: 'Email'
-                                ),
+                                    hintText: 'Email'),
                                 onChanged: (value) {
                                   setState(() {
                                     email = value;
@@ -93,9 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                                     : null,
                                 controller: passwordContoller,
                                 decoration: kTextFormDecoration.copyWith(
-                                  hintText: 'Password'
-                                ),
-                                
+                                    hintText: 'Password'),
                                 onChanged: (value) {
                                   setState(() {
                                     password = value;
@@ -110,7 +108,8 @@ class _LoginPageState extends State<LoginPage> {
                                 children: [
                                   GestureDetector(
                                     child: Text('Forget Password?'),
-                                    onTap: () {},
+                                    onTap: ()  {}
+                                      
                                   ),
                                 ],
                               ),
@@ -124,11 +123,18 @@ class _LoginPageState extends State<LoginPage> {
                                   style: const ButtonStyle(
                                       backgroundColor:
                                           MaterialStatePropertyAll(Colors.red)),
-                                  onPressed: () {
+                                  onPressed: () async{
                                     if (_formKey.currentState?.validate() ??
                                         false) {
-                                      print(email);
-                                      print(password);
+                                      dynamic result = await _auth
+                                          .registerWithEmailandPassword(
+                                              email, password);
+                                      if(result == null){
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(content: const Text('Error loging in'),backgroundColor: Colors.red,)
+                                        );
+                                      }
+                                    
                                     }
                                   },
                                   child: const Text(

@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:movies/authenticate/auth_service.dart';
 import 'package:movies/constants.dart';
 
 class RegisterPage extends StatefulWidget {
-  
-  const RegisterPage({super.key});
+  void Function() toggleView;
+
+  RegisterPage({super.key, required this.toggleView});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-   final _formKey = GlobalKey<FormState>();
+  final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
 
   final emaliController = TextEditingController();
 
@@ -19,7 +22,8 @@ class _RegisterPageState extends State<RegisterPage> {
   String email = '';
 
   String password = '';
-  
+  String error = '';
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,17 +31,14 @@ class _RegisterPageState extends State<RegisterPage> {
         appBar: AppBar(
           title: const Text('Movies'),
           actions: [
-            Padding(
-              padding: EdgeInsets.all(10),
-              child: Row(
-                children: [
-                  Icon(Icons.person),
-                  Text(
-                    'LogIn',
-                    textAlign: TextAlign.center,
-                  )
-                ],
-              ),
+            ElevatedButton.icon(
+              onPressed: () {
+                widget.toggleView();
+              },
+              icon: Icon(Icons.person),
+              label: Text('Register'),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(Colors.red)),
             )
           ],
         ),
@@ -50,9 +51,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Container(
-                    height: 130,
-                    child: Icon(Icons.person,size: 100,color: Colors.red,)
-                  ),
+                      height: 130,
+                      child: Icon(
+                        Icons.person,
+                        size: 100,
+                        color: Colors.red,
+                      )),
                   const Padding(
                     padding: EdgeInsets.only(left: 50.0),
                     child: Text(
@@ -74,8 +78,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     : null,
                                 controller: emaliController,
                                 decoration: kTextFormDecoration.copyWith(
-                                  hintText: 'Email'
-                                ),
+                                    hintText: 'Email'),
                                 onChanged: (value) {
                                   setState(() {
                                     email = value;
@@ -92,9 +95,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     : null,
                                 controller: passwordContoller,
                                 decoration: kTextFormDecoration.copyWith(
-                                  hintText: 'Password'
-                                ),
-                                
+                                    hintText: 'Password'),
                                 onChanged: (value) {
                                   setState(() {
                                     password = value;
@@ -104,7 +105,6 @@ class _RegisterPageState extends State<RegisterPage> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              
                               const SizedBox(
                                 height: 20,
                               ),
@@ -115,11 +115,17 @@ class _RegisterPageState extends State<RegisterPage> {
                                   style: const ButtonStyle(
                                       backgroundColor:
                                           MaterialStatePropertyAll(Colors.red)),
-                                  onPressed: () {
+                                  onPressed: () async {
                                     if (_formKey.currentState?.validate() ??
                                         false) {
-                                      print(email);
-                                      print(password);
+                                      dynamic result = await _auth
+                                          .registerWithEmailandPassword(
+                                              email, password);
+                                      if (result == null) {
+                                        setState(() {
+                                          error = 'Error registering';
+                                        });
+                                      }
                                     }
                                   },
                                   child: const Text(
@@ -127,7 +133,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                     style: TextStyle(fontSize: 20),
                                   ),
                                 ),
-                              )
+                              ),
+                              Text(error),
                             ],
                           )))
                 ],
@@ -139,4 +146,3 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 }
-
