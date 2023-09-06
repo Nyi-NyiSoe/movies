@@ -20,7 +20,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final passwordContoller = TextEditingController();
 
   String email = '';
-
+  bool isObscure = true;
   String password = '';
   String error = '';
 
@@ -36,7 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 widget.toggleView();
               },
               icon: Icon(Icons.person),
-              label: Text('Register'),
+              label: Text('Login'),
               style: ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.red)),
             )
@@ -78,6 +78,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     : null,
                                 controller: emaliController,
                                 decoration: kTextFormDecoration.copyWith(
+                                 
                                     hintText: 'Email'),
                                 onChanged: (value) {
                                   setState(() {
@@ -89,12 +90,17 @@ class _RegisterPageState extends State<RegisterPage> {
                                 height: 20,
                               ),
                               TextFormField(
-                                obscureText: true,
+                                obscureText: isObscure,
                                 validator: (value) => (value?.length ?? 0) < 6
                                     ? "Enter a password with more than 6 characters"
                                     : null,
                                 controller: passwordContoller,
                                 decoration: kTextFormDecoration.copyWith(
+                                   suffixIcon: IconButton(onPressed: (){
+                                    setState(() {
+                                      isObscure = !isObscure;
+                                    });
+                                  }, icon: isObscure ? Icon(Icons.visibility_off) : Icon(Icons.visibility)),
                                     hintText: 'Password'),
                                 onChanged: (value) {
                                   setState(() {

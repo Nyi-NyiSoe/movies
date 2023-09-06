@@ -22,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   String email = '';
 
   String password = '';
+  bool isObscure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -87,18 +88,26 @@ class _LoginPageState extends State<LoginPage> {
                                 height: 20,
                               ),
                               TextFormField(
-                                obscureText: true,
+                                
+                                obscureText: isObscure,
                                 validator: (value) => (value?.length ?? 0) < 6
                                     ? "Enter a password with more than 6 characters"
                                     : null,
                                 controller: passwordContoller,
                                 decoration: kTextFormDecoration.copyWith(
+                                  suffixIcon: IconButton(onPressed: (){
+                                    setState(() {
+                                      isObscure = !isObscure;
+                                    });
+                                  }, icon: isObscure ? Icon(Icons.visibility_off) : Icon(Icons.visibility)),
+                                  
                                     hintText: 'Password'),
                                 onChanged: (value) {
                                   setState(() {
                                     password = value;
                                   });
                                 },
+                               
                               ),
                               const SizedBox(
                                 height: 20,
@@ -127,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                                     if (_formKey.currentState?.validate() ??
                                         false) {
                                       dynamic result = await _auth
-                                          .registerWithEmailandPassword(
+                                          .loginWithEmailandPassword(
                                               email, password);
                                       if(result == null){
                                         ScaffoldMessenger.of(context).showSnackBar(

@@ -2,8 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/authenticate/auth_service.dart';
 import 'package:movies/firebase_options.dart';
-import 'package:movies/authenticate/login_page.dart';
-import 'package:movies/authenticate/register_page.dart';
 import 'package:movies/models/user.dart';
 import 'package:movies/wrapper.dart';
 import 'package:provider/provider.dart';
@@ -28,9 +26,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
-              appBarTheme: AppBarTheme(backgroundColor: Colors.red),
-              buttonTheme: ButtonThemeData(buttonColor: Colors.red)),
-          home: Wrapper()
+              appBarTheme: const AppBarTheme(backgroundColor: Colors.red),
+              buttonTheme: const ButtonThemeData(buttonColor: Colors.red)),
+          home: const Wrapper()
           
           ),
     );
