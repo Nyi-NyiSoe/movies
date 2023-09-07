@@ -18,7 +18,7 @@ class _WrapperState extends State<Wrapper> {
     if (user == null) {
       return const Authenticate();
     } else {
-      return const Home();
+      return  Home();
     }
   }
 }
