@@ -14,10 +14,12 @@ class _MovieListState extends State<MovieList> {
   List<dynamic>? movieList;
   MovieData movieData = MovieData();
   bool isLoading = true;
+ 
 
   @override
   void initState() {
     getMovieList();
+    super.initState();
   }
 
   Future<void> getMovieList() async {
@@ -29,6 +31,7 @@ class _MovieListState extends State<MovieList> {
       if (result != null) {
         isLoading = false;
         movieList = result["results"];
+        
       }
     });
   }
@@ -36,21 +39,22 @@ class _MovieListState extends State<MovieList> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
+      
       child: isLoading? Center(child: SpinKitHourGlass(color: Colors.red),) :GridView.builder(
         gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3,childAspectRatio: (1/1.5)),
         itemBuilder: (context, index) {
+          String movieId = movieList![index]['id'].toString();
           return Padding(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(5),
               child: MovieTile(
                 imagePath: movieList![index]["poster_path"],
                 onTap: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) {
                     return MovieDetails(
-                      backgroundImage: movieList![index]['backdrop_path'],
-                      imagePath: movieList![index]["poster_path"],
-                      title: movieList![index]['original_title'] ?? '',
+                      movieId: movieId.toString(),
+                     
                     );
                   }));
                 },

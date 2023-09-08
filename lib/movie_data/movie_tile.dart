@@ -10,7 +10,7 @@ class MovieTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: Image(
-       fit: BoxFit.cover,
+        fit: BoxFit.fill,
         image: NetworkImage(
             'https://www.themoviedb.org/t/p/w600_and_h900_bestv2$imagePath'),
       ),

@@ -99,7 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                                     setState(() {
                                       isObscure = !isObscure;
                                     });
-                                  }, icon: isObscure ? Icon(Icons.visibility_off) : Icon(Icons.visibility)),
+                                  }, icon: isObscure ?  const Icon(Icons.visibility_off) :const Icon(Icons.visibility)),
                                   
                                     hintText: 'Password'),
                                 onChanged: (value) {

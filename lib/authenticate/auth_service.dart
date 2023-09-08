@@ -6,7 +6,7 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   MyUser? _userFromFirebase(User user) {
-    return user != null ? MyUser(uid: user.uid) : null;
+    return user !=null ? MyUser(uid: user.uid) : null;
   }
 
   //auth change user stream
@@ -24,7 +24,7 @@ class AuthService {
       User? myUser = result.user;
       return _userFromFirebase(myUser!);
     } catch (e) {
-      print(e.toString());
+      //print(e.toString());
       return null;
     }
   }
@@ -37,7 +37,7 @@ class AuthService {
       User? myUser = result.user;
       return _userFromFirebase(myUser!);
     } catch (e) {
-      print(e.toString());
+      //print(e.toString());
       return null;
     }
   }
@@ -48,7 +48,7 @@ class AuthService {
     try{
       return await _auth.signOut();
     }catch(e){
-      print(e.toString());
+     // print(e.toString());
       return null;
     }
   }
