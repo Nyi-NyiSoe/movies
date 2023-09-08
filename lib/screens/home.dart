@@ -3,11 +3,23 @@ import 'package:movies/authenticate/auth_service.dart';
 import 'package:movies/constants.dart';
 import 'package:movies/movie_data/movie_list.dart';
 import 'package:movies/movie_data/movie_data.dart';
+import 'package:movies/movie_data/search_movie.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  String showText = 'Popular this week';
+  TextEditingController controller = TextEditingController();
+  late List<dynamic> searchResult = [];
+  bool isLoading = true;
+
   @override
   Widget build(BuildContext context) {
     final _auth = AuthService();
+    MovieData movieData = MovieData();
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -31,10 +43,32 @@ class Home extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
+                controller: controller,
                 decoration: kTextFormDecoration.copyWith(
                     hintText: 'Search',
-                    suffixIcon:
-                        IconButton(onPressed: () {}, icon: Icon(Icons.search))),
+                    suffixIcon: IconButton(
+                        onPressed: () async {
+                          if (controller.text.isNotEmpty) {
+                            setState(() {
+                              showText = 'Results';
+                              isLoading = true;
+                            });
+                            dynamic temp =
+                                await movieData.fetchMovieData(controller.text);
+                            setState(() {
+                              isLoading = false;
+                              searchResult = temp["results"];
+                            });
+                          }
+                        },
+                        icon: Icon(Icons.search))),
+                onChanged: (value) {
+                  if (value.isEmpty) {
+                    setState(() {
+                      showText = 'Popular this week';
+                    });
+                  }
+                },
               ),
             ),
             Padding(
@@ -44,12 +78,20 @@ class Home extends StatelessWidget {
                     color: Colors.red, borderRadius: BorderRadius.circular(10)),
                 padding: EdgeInsets.all(8),
                 child: Text(
-                  'Popular this week',
+                  showText,
                   style: TextStyle(color: Colors.white),
                 ),
               ),
             ),
-            Container(child: MovieList())
+            Container(
+                child: controller.text.isEmpty
+                    ? MovieList()
+                    : isLoading
+                        ? SearchMovieList(
+                            movieList: searchResult,
+                            isLoading: true,
+                          )
+                        : SearchMovieList(movieList: searchResult))
           ],
         ),
       ),
