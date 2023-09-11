@@ -16,7 +16,7 @@ class SearchMovieList extends StatelessWidget {
         : Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3, childAspectRatio: 1 / 1.5),
+                  crossAxisCount: 4, childAspectRatio: 1 / 1.5),
               itemBuilder: (context, index) {
                 return Padding(
                     padding: const EdgeInsets.all(8),
