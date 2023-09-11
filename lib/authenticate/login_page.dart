@@ -3,9 +3,9 @@ import 'package:movies/constants.dart';
 import 'auth_service.dart';
 
 class LoginPage extends StatefulWidget {
-  void Function() toggleView;
+  final void Function() toggleView;
 
-  LoginPage({super.key, required this.toggleView});
+  const LoginPage({super.key, required this.toggleView});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -35,9 +35,9 @@ class _LoginPageState extends State<LoginPage> {
               onPressed: () {
                 widget.toggleView();
               },
-              icon: Icon(Icons.person),
-              label: Text('Register'),
-              style: ButtonStyle(
+              icon: const Icon(Icons.person),
+              label: const Text('Register'),
+              style: const ButtonStyle(
                   backgroundColor: MaterialStatePropertyAll(Colors.red)),
             )
           ],
@@ -116,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   GestureDetector(
-                                    child: Text('Forget Password?'),
+                                    child: const Text('Forget Password?'),
                                     onTap: ()  {}
                                       
                                   ),
@@ -140,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                                               email, password);
                                       if(result == null){
                                         ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(content: const Text('Error loging in'),backgroundColor: Colors.red,)
+                                          const SnackBar(content: const Text('Error loging in'),backgroundColor: Colors.red,)
                                         );
                                       }
                                     

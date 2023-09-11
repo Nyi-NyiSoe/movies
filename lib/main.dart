@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:movies/authenticate/auth_service.dart';
 import 'package:movies/firebase_options.dart';
 import 'package:movies/models/user.dart';
-import 'package:movies/wrapper.dart';
+import 'package:movies/screens/wrapper.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main() async {

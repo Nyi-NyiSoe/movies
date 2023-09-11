@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:movies/movie_data/movie_data.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -17,8 +15,8 @@ class MovieDetails extends StatefulWidget {
 class _MovieDetailsState extends State<MovieDetails> {
   final MovieData movieData = MovieData();
   late Map<String, dynamic> movieDetails = {};
+  late Map<String, dynamic> videoResult = {};
   bool isLoading = true;
-
 
   @override
   void initState() {
@@ -31,9 +29,10 @@ class _MovieDetailsState extends State<MovieDetails> {
       isLoading = true;
     });
     dynamic result = await movieData.fetchMovieDetail(movieId);
+    dynamic videoData = await movieData.fetchVideoDetail(movieId);
     setState(() {
       movieDetails = result;
-     print(movieDetails['videos']);
+      videoResult = videoData;
       isLoading = !isLoading;
     });
   }
@@ -120,35 +119,53 @@ class _MovieDetailsState extends State<MovieDetails> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Text(
-                              'Overview',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                decoration: TextDecoration.underline,
+                                padding: EdgeInsets.all(10.0),
+                                child: Text(
+                                  'Overview',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(5.0),
-                            child: Text(movieDetails['overview']),
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                Text('Watch trailer',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                                // Padding(padding: const EdgeInsets.all(8)
-                                // child: YoutubePlayerBuilder(player: YoutubePlayer(controller: YoutubePlayerController(initialVideoId: movieDetails[''])), builder: builder),)
-                              //Text(movieDetails['videos'][0]['key'])
-                              ],
-                            ),
-                          )
+                              Padding(
+                                padding: const EdgeInsets.all(5.0),
+                                child: Text(movieDetails['overview']),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'Watch trailer',
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8),
+                                      child: YoutubePlayerBuilder(
+                                          player: YoutubePlayer(
+                                            controller: YoutubePlayerController(
+                                                initialVideoId:
+                                                    videoResult['results'][0]
+                                                        ['key'],
+                                                flags: YoutubePlayerFlags(
+                                                    autoPlay: false,
+                                                    mute: false)),
+                                          ),
+                                          builder: (context, player) {
+                                            return Container(
+                                              child: player,
+                                            );
+                                          }),
+                                    )
+                                  ],
+                                ),
+                              )
                             ],
                           ),
-                          
                         ],
                       ),
                     ),

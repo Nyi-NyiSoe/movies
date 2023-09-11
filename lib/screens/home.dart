@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:movies/authenticate/auth_service.dart';
 import 'package:movies/constants.dart';
-
 import 'package:movies/movie_data/movie_data.dart';
 import 'package:movies/movie_data/search_movie.dart';
 
@@ -83,7 +82,7 @@ class _HomeState extends State<Home> {
                             });
                           }
                         },
-                        icon: Icon(Icons.search))),
+                        icon: const Icon(Icons.search))),
                 onChanged: (value) {
                   if (value.isEmpty) {
                     setState(() {
@@ -103,7 +102,7 @@ class _HomeState extends State<Home> {
                     decoration: BoxDecoration(
                         color: Colors.red,
                         borderRadius: BorderRadius.circular(10)),
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: GestureDetector(
                       onTap: () async {
                         setState(() {
@@ -114,7 +113,7 @@ class _HomeState extends State<Home> {
                       },
                       child: Text(
                         showText,
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                   ),
@@ -143,9 +142,9 @@ class _HomeState extends State<Home> {
                           decoration: BoxDecoration(
                               color: Colors.red,
                               borderRadius: BorderRadius.circular(10)),
-                          padding: EdgeInsets.all(8),
-                          child: Text(
-                            'Previous page ',
+                          padding: const EdgeInsets.all(8),
+                          child: const Text(
+                            'Previous',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
@@ -173,9 +172,9 @@ class _HomeState extends State<Home> {
                           decoration: BoxDecoration(
                               color: Colors.red,
                               borderRadius: BorderRadius.circular(10)),
-                          padding: EdgeInsets.all(8),
-                          child: Text(
-                            'Next page ',
+                          padding: const EdgeInsets.all(8),
+                          child: const Text(
+                            'Next',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
@@ -188,12 +187,14 @@ class _HomeState extends State<Home> {
             Container(
                 child: controller.text.isEmpty
                     ? isLoading
-                        ? SpinKitHourGlass(color: Colors.red)
-                        : SearchMovieList(movieList: movieList)
+                        ? const SpinKitHourGlass(color: Colors.red)
+                        : SearchMovieList(
+                            movieList: movieList,
+                          )
                     : isLoading
                         ? SearchMovieList(
                             movieList: searchResult,
-                            isLoading: true,
+                            isLoading: isLoading,
                           )
                         : SearchMovieList(movieList: searchResult)),
           ],

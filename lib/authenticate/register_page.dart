@@ -3,9 +3,9 @@ import 'package:movies/authenticate/auth_service.dart';
 import 'package:movies/constants.dart';
 
 class RegisterPage extends StatefulWidget {
-  void Function() toggleView;
+  final void Function() toggleView;
 
-  RegisterPage({super.key, required this.toggleView});
+  const RegisterPage({super.key, required this.toggleView});
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -100,7 +100,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     setState(() {
                                       isObscure = !isObscure;
                                     });
-                                  }, icon: isObscure ? Icon(Icons.visibility_off) : Icon(Icons.visibility)),
+                                  }, icon: isObscure ? const Icon(Icons.visibility_off) : Icon(Icons.visibility)),
                                     hintText: 'Password'),
                                 onChanged: (value) {
                                   setState(() {
